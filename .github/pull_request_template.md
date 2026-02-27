@@ -1,33 +1,72 @@
-## 📋 Description
+## 🏛 NestJS Enterprise Pull Request Template
 
-<!-- Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. -->
+### 📋 Overview
+<!-- Provide a clear and concise summary of the changes and the motivation behind them. -->
 
-Fixes # (issue number)
+**Related Task/Issue:** Fixes # (issue number)
 
-## 🛠 Type of change
+---
 
-<!-- Please tick all the relevant options. -->
+### 🛠 Type of Change
+- [ ] 🚀 **Feature**: New functionality.
+- [ ] 🐛 **Fix**: Bug fix.
+- [ ] 🛡️ **Security**: Security enhancement or fix.
+- [ ] ⚡ **Optimization**: Performance or resource usage improvement.
+- [ ] 🧹 **Refactor**: Code structure change without functional impact.
+- [ ] 🧪 **Testing**: Adding or improving tests.
+- [ ] 📖 **Documentation**: Swagger or README updates.
+- [ ] ⚙️ **Config**: Infrastructure or environment changes.
 
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] 🚀 New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📖 Documentation update
-- [ ] 🧹 Code formatting / Refactoring
-- [ ] 🧪 Testing
-- [ ] ⚙️ Configuration change
+---
 
-## ✅ Checklist:
+### 🔍 Scope of Impact
+- [ ] **Modules affected**: <!-- e.g., AuthModule, UsersModule -->
+- [ ] **Database changes**:
+    - [ ] Schema Migration (TypeORM/Prisma)
+    - [ ] Seeding update
+    - [ ] Index optimization
+- [ ] **API Breaking Changes**:
+    - [ ] Endpoint removed or renamed
+    - [ ] Response structure changed
+    - [ ] Required DTO/Query parameters changed
 
-<!-- Please cross out the items that don't apply, and tick the ones that do. -->
-- [ ] My code follows the enterprise code style and NestJS best practices.
-- [ ] I have performed a self-review of my own code.
-- [ ] I have commented my code, particularly in hard-to-understand areas.
-- [ ] I have made corresponding changes to the Swagger documentation.
-- [ ] My changes generate no new warnings (ESLint, TypeScript).
-- [ ] I have added tests that prove my fix is effective or that my feature works.
-- [ ] New and existing unit/e2e tests pass locally with my changes.
-- [ ] Any dependent changes have been merged and published in downstream modules.
+---
 
-## 📝 Additional context
+### 🛡 Security & Compliance
+- [ ] Input validation (DTOs/Class-validator)
+- [ ] Authentication/Authorization (Guards/Roles)
+- [ ] Rate limiting / Throttling
+- [ ] Sensitive data logging/exposure check
 
-<!-- Add any other context about the Pull Request here. -->
+---
+
+### ✅ Development Checklist
+- [ ] **Architecture**: Follows NestJS best practices (Dependency Injection, Modular structure).
+- [ ] **DTOs**: Validated with `class-validator` and documented with `@ApiProperty`.
+- [ ] **Exceptions**: Used built-in or custom `HttpException` filters correctly.
+- [ ] **Persistence**: Database queries are efficient; no N+1 problems.
+- [ ] **Swagger**: OpenAPI/Swagger docs updated and verified.
+- [ ] **Logging**: Meaningful logs added for production debugging.
+- [ ] **Linting**: Code passes all project-specific ESLint/Prettier rules.
+
+---
+
+### 🧪 Testing & Validation
+- [ ] Unit tests added/updated.
+- [ ] Integration (E2E) tests added/updated.
+- [ ] Manual verification via Swagger/Postman.
+- [ ] Coverage reports checked.
+
+---
+
+### � Deployment & Observability
+- [ ] **Logging**: Added appropriate context to logs for easier debugging.
+- [ ] **Monitoring**: Updated relevant alerts or metrics.
+- [ ] **Environment Variables**: New variables added to `.env.example`.
+- [ ] **Rollback Plan**: Clear steps provided to revert this change if necessary.
+
+---
+
+### �📝 Additional Notes / Screenshots
+<!-- Add any extra information, terminal logs, or Swagger screenshots here. -->
+

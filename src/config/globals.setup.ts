@@ -1,6 +1,7 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { TransformInterceptor } from '@common/interceptors/transform.interceptor';
+
 import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
+import { TransformInterceptor } from '@common/interceptors/transform.interceptor';
 
 export function setupGlobals(app: INestApplication): void {
   // Global validation pipe
