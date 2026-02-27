@@ -32,9 +32,14 @@
     "useUnknownInCatchVariables": true,
 
     "paths": {
+      "@config": ["src/config/index"],
       "@config/*": ["src/config/*"],
+      "@common": ["src/common/index"],
       "@common/*": ["src/common/*"],
+      "@modules": ["src/modules/index"],
       "@modules/*": ["src/modules/*"],
+      "@shared": ["src/shared/index"],
+      "@shared/*": ["src/shared/*"],
       "@/*": ["src/*"]
     }
   }

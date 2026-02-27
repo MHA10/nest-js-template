@@ -46,7 +46,22 @@ src/
    npm install
    ```
 
-2. **Run the Application**
+2. **Database Setup**
+   * Copy the example environment file:
+     ```bash
+     cp .env.example .env
+     ```
+   * The default settings in `.env.example` are pre-configured to work with the Docker PostgreSQL container.
+   * Start the database:
+     ```bash
+     docker compose up db -d
+     ```
+   * Run migrations to create the initial tables:
+     ```bash
+     npm run migration:run
+     ```
+
+3. **Run the Application**
    ```bash
    # Development mode
    npm run start
@@ -57,6 +72,68 @@ src/
    # Production mode
    npm run start:prod
    ```
+
+## ✅ Verification
+
+To confirm everything is set up correctly:
+
+1. **Terminal**: Check the logs for `[Bootstrap] Database connection established successfully`.
+2. **Health Check**: Visit `http://localhost:3000/health`. You should see a `"database": { "status": "up" }` entry.
+3. **Database**: Use a tool like **DBeaver** to verify connectivity to the configured database.
+
+## 🐳 Docker Support
+
+This project includes enterprise-level Docker configurations for development, testing, and production.
+
+### Development (with hot-reloading)
+```bash
+docker-compose up
+```
+The application will be available at `http://localhost:3000`. Changes in your local files will trigger a restart inside the container.
+
+### Production Build & Run
+```bash
+# Build the production image
+docker build -t nest-js-template .
+
+# Run with production-grade settings
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+### Running Tests in Docker
+```bash
+docker compose -f docker-compose.test.yml up --exit-code-from test
+```
+
+## 🗄 Database Migrations
+
+This project uses TypeORM for database management. A singleton `DataSource` is configured in `src/database/data-source.ts` for CLI usage.
+
+### Migration Commands
+```bash
+# Create a new empty migration
+npm run migration:create --name=MigrationName
+
+# Generate a migration based on entity changes
+npm run migration:generate --name=MigrationName
+
+# Run pending migrations
+npm run migration:run
+
+# Revert the last migration
+npm run migration:revert
+```
+
+> [!TIP]
+> When running `migration:generate`, ensure your application is built (`npm run build`) and the database is accessible.
+
+### Features of the Docker setup:
+- **Multi-stage Build**: Minimizes image size and secures source code.
+- **Unprivileged User**: Runs the application as a non-root `node` user.
+- **Health Checks**: Integrated Docker health checks using the `/health` endpoint.
+- **Resource Limits**: Defined CPU and memory constraints for production stability.
+- **Layer Caching**: Optimized for fast rebuilds.
+- **Environment Isolation**: Separate configurations for dev, test, and prod.
 
 ## 🌐 API Accessibility
 

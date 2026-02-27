@@ -4,16 +4,19 @@ import {
   HealthCheck,
   HealthCheckService,
   MemoryHealthIndicator,
+  TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 
 import { IsPublic } from '@common/decorators/is-public.decorator';
+import { SwaggerTag } from '@shared/constants/swagger.constant';
 
-@ApiTags('System')
+@ApiTags(SwaggerTag.SYSTEM)
 @Controller()
 export class HealthController {
   constructor(
     private health: HealthCheckService,
     private memory: MemoryHealthIndicator,
+    private db: TypeOrmHealthIndicator,
   ) {}
 
   @Get(['', 'health'])
@@ -23,6 +26,7 @@ export class HealthController {
   check() {
     return this.health.check([
       () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
+      () => this.db.pingCheck('database'),
     ]);
   }
 }
