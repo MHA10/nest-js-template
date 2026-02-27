@@ -5,7 +5,7 @@ import {
   MemoryHealthIndicator,
 } from '@nestjs/terminus';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { IsPublic } from '../../common/decorators/is-public.decorator';
+import { IsPublic } from '@common/decorators/is-public.decorator';
 
 @ApiTags('System')
 @Controller()
