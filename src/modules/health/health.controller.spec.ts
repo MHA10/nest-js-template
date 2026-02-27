@@ -1,6 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { HealthController } from './health.controller';
 import { HealthCheckService, MemoryHealthIndicator } from '@nestjs/terminus';
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { HealthController } from '@modules/health/health.controller';
 
 const mockHealthCheckService = {
   check: jest.fn().mockResolvedValue({ status: 'ok' }),
