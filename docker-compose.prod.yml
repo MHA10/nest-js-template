@@ -1,0 +1,10 @@
+services:
+  app:
+    cpus: 0.50
+    mem_limit: 512M
+    mem_reservation: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"

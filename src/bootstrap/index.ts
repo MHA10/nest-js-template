@@ -1,5 +1,6 @@
-import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { DataSource } from 'typeorm';
 
 import { AppModule } from '@/app.module';
 import { setupGlobals } from '@config/globals.setup';
@@ -17,6 +18,16 @@ export async function bootstrap() {
 
   // Setup Swagger API documentation
   setupSwagger(app);
+
+  // Verify database connection
+  const dataSource = app.get(DataSource);
+  if (!dataSource.isInitialized) {
+    logger.error('Database connection failed');
+    await app.close();
+    throw new Error('Database connection failed');
+  }
+
+  logger.log('Database connection established successfully');
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
