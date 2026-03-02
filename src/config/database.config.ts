@@ -1,8 +1,17 @@
+/**
+ * Database Configuration
+ *
+ * Configures the TypeORM database connection using environment variables.
+ * Uses SnakeNamingStrategy to map camelCase properties to snake_case columns automatically.
+ */
 import { registerAs } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 import { validatePort } from '@shared/utils/config.util';
 
+/**
+ * Registers the 'database' config namespace for ConfigModule.
+ */
 export const databaseConfig = registerAs('database', () => ({
   type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
