@@ -1,5 +1,16 @@
 /**
+ * Mapping Utilities
+ *
+ * Provides type-safe functions for recursively converting object keys
+ * between camelCase and snake_case formatting. Useful when interacting
+ * with external APIs or databases that use a different naming convention.
+ */
+
+/**
  * Converts a string from camelCase to snake_case.
+ *
+ * @param str The camelCase string to convert.
+ * @returns The converted snake_case string.
  */
 export const toSnakeCase = (str: string): string => {
   return str.replace(/[A-Z]/g, (letter, offset) =>
@@ -9,13 +20,16 @@ export const toSnakeCase = (str: string): string => {
 
 /**
  * Converts a string from snake_case to camelCase.
+ *
+ * @param str The snake_case string to convert.
+ * @returns The converted camelCase string.
  */
 export const toCamelCase = (str: string): string => {
   return str.replace(/(_\w)/g, (match) => match[1].toUpperCase());
 };
 
 /**
- * Type-safe utility to convert object keys between camelCase and snake_case.
+ * Type-safe utility to convert string literal types to snake_case.
  */
 export type SnakeCase<S extends string> =
   InternalSnakeCase<S> extends `_${infer T}` ? T : InternalSnakeCase<S>;
@@ -24,10 +38,16 @@ type InternalSnakeCase<S extends string> = S extends `${infer T}${infer U}`
   ? `${T extends Uppercase<T> ? (T extends Lowercase<T> ? '' : '_') : ''}${Lowercase<T>}${InternalSnakeCase<U>}`
   : S;
 
+/**
+ * Type-safe utility to convert string literal types to camelCase.
+ */
 export type CamelCase<S extends string> = S extends `${infer T}_${infer U}`
   ? `${Lowercase<T>}${Capitalize<CamelCase<U>>}`
   : Lowercase<S>;
 
+/**
+ * Recursively maps the keys of a type to snake_case.
+ */
 export type SnakeCaseKeys<T> = T extends (infer U)[]
   ? SnakeCaseKeys<U>[]
   : T extends Date | null | undefined
@@ -36,6 +56,9 @@ export type SnakeCaseKeys<T> = T extends (infer U)[]
       ? { [K in keyof T as SnakeCase<K & string>]: SnakeCaseKeys<T[K]> }
       : T;
 
+/**
+ * Recursively maps the keys of a type to camelCase.
+ */
 export type CamelCaseKeys<T> = T extends (infer U)[]
   ? CamelCaseKeys<U>[]
   : T extends Date | null | undefined
@@ -46,6 +69,9 @@ export type CamelCaseKeys<T> = T extends (infer U)[]
 
 /**
  * Recursively maps object keys or arrays of objects to snake_case.
+ *
+ * @param data The object or array to transform.
+ * @returns A deeply cloned object/array with all keys mapped to snake_case.
  */
 export function mapToSnakeCase<T>(data: T): SnakeCaseKeys<T> {
   if (data === null || data === undefined || typeof data !== 'object') {
@@ -76,6 +102,9 @@ export function mapToSnakeCase<T>(data: T): SnakeCaseKeys<T> {
 
 /**
  * Recursively maps object keys or arrays of objects to camelCase.
+ *
+ * @param data The object or array to transform.
+ * @returns A deeply cloned object/array with all keys mapped to camelCase.
  */
 export function mapToCamelCase<T>(data: T): CamelCaseKeys<T> {
   if (data === null || data === undefined || typeof data !== 'object') {

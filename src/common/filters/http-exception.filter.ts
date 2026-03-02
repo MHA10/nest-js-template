@@ -1,3 +1,11 @@
+/**
+ * Global HTTP Exception Filter
+ *
+ * Catches all unhandled exceptions across the application and formats
+ * them into a standardized JSON response structure.
+ *
+ * Also logs internal server errors for easier debugging.
+ */
 import { Request, Response } from 'express';
 import {
   ExceptionFilter,
@@ -8,10 +16,19 @@ import {
   Logger,
 } from '@nestjs/common';
 
+/**
+ * Custom exception filter for standardizing API error responses.
+ */
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(HttpExceptionFilter.name);
 
+  /**
+   * Catches and transforms the exception into a standard JSON payload.
+   *
+   * @param exception The thrown exception object
+   * @param host The execution context host
+   */
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

@@ -1,3 +1,13 @@
+/**
+ * Application Bootstrap
+ *
+ * Handles the initialization of the NestJS application, including:
+ * - CORS setup
+ * - Global middlewares (pipes, interceptors, filters)
+ * - Swagger OpenAPI documentation
+ * - Database connection verification
+ * - Port binding and server startup
+ */
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DataSource } from 'typeorm';
@@ -6,6 +16,11 @@ import { AppModule } from '@/app.module';
 import { setupGlobals } from '@config/globals.setup';
 import { setupSwagger } from '@config/swagger.setup';
 
+/**
+ * Initializes and starts the NestJS application server.
+ *
+ * @returns A Promise that resolves when the server has successfully started.
+ */
 export async function bootstrap() {
   const logger = new Logger('Bootstrap');
 

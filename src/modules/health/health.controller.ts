@@ -1,5 +1,11 @@
+/**
+ * Health Controller
+ *
+ * Exposes health check endpoints for system monitoring.
+ * Validates database connectivity and memory heap usage.
+ */
 import { Controller, Get } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import {
   HealthCheck,
   HealthCheckService,
@@ -10,6 +16,8 @@ import {
 import { IsPublic } from '@common/decorators/is-public.decorator';
 import { SwaggerTag } from '@shared/constants/swagger.constant';
 
+import { ApiHealthCheckResponse } from './health.swagger';
+
 @ApiTags(SwaggerTag.SYSTEM)
 @Controller()
 export class HealthController {
@@ -19,11 +27,30 @@ export class HealthController {
     private db: TypeOrmHealthIndicator,
   ) {}
 
-  @Get(['', 'health'])
+  /**
+   * Hidden legacy root endpoint for load balancers.
+   * Maps to the health check, but hidden from Swagger UI.
+   */
+  @Get('')
   @IsPublic()
   @HealthCheck()
-  @ApiOperation({ summary: 'Check system health status' })
-  check() {
+  @ApiExcludeEndpoint()
+  checkRoot() {
+    return this.health.check([
+      () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
+      () => this.db.pingCheck('database'),
+    ]);
+  }
+
+  /**
+   * Diagnostic: Tests connectivity to the database and memory usage.
+   * Useful to confirm the API and its dependencies are healthy.
+   */
+  @Get('health')
+  @IsPublic()
+  @HealthCheck()
+  @ApiHealthCheckResponse()
+  checkHealth() {
     return this.health.check([
       () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
       () => this.db.pingCheck('database'),
