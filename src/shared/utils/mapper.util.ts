@@ -2,7 +2,9 @@
  * Converts a string from camelCase to snake_case.
  */
 export const toSnakeCase = (str: string): string => {
-  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+  return str.replace(/[A-Z]/g, (letter, offset) =>
+    offset > 0 ? `_${letter.toLowerCase()}` : letter.toLowerCase(),
+  );
 };
 
 /**
@@ -15,8 +17,11 @@ export const toCamelCase = (str: string): string => {
 /**
  * Type-safe utility to convert object keys between camelCase and snake_case.
  */
-export type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
-  ? `${T extends Uppercase<T> ? '_' : ''}${Lowercase<T>}${SnakeCase<U>}`
+export type SnakeCase<S extends string> =
+  InternalSnakeCase<S> extends `_${infer T}` ? T : InternalSnakeCase<S>;
+
+type InternalSnakeCase<S extends string> = S extends `${infer T}${infer U}`
+  ? `${T extends Uppercase<T> ? (T extends Lowercase<T> ? '' : '_') : ''}${Lowercase<T>}${InternalSnakeCase<U>}`
   : S;
 
 export type CamelCase<S extends string> = S extends `${infer T}_${infer U}`

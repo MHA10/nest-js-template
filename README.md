@@ -7,7 +7,7 @@ A production-ready [NestJS](https://nestjs.com/) boilerplate designed with a cle
 - **Standardized Folder Structure**: Modular separation with `common`, `modules`, `bootstrap`, `shared`, and `config`.
 - **Path Aliases**: Pre-configured TypeScript path aliases (`@config/*`, `@common/*`, `@modules/*`, `@shared/*`, `@/*`) for cleaner imports.
 - **Swagger Integration**: Automated API documentation using `DocumentBuilder`, available at `/api/docs`.
-- **Health Checks**: System diagnostic endpoints via `@nestjs/terminus` (Heap memory check included).
+- **Health Checks**: System diagnostic endpoints via `@nestjs/terminus` (Heap memory and Database connectivity checks included).
 - **TypeORM & PostgreSQL**: Robust database integration with automatic **snake_case** column mapping using `SnakeNamingStrategy`.
 - **Base CRUD Service**: Abstract base service to reduce boilerplate for common database operations.
 - **Type-safe Data Mapping**: Generic `mapper.util.ts` for consistent DTO/Entity transformations.

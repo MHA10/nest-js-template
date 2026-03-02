@@ -6,6 +6,7 @@ import {
   FindOneOptions,
   DeleteResult,
   FindOptionsWhere,
+  QueryDeepPartialEntity,
 } from 'typeorm';
 
 export abstract class BaseService<T extends { id: number | string }> {
@@ -45,13 +46,10 @@ export abstract class BaseService<T extends { id: number | string }> {
   }
 
   async upsert(id: T['id'], data: DeepPartial<T>): Promise<T> {
-    try {
-      return await this.update(id, data);
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        return await this.create({ ...data, id } as DeepPartial<T>);
-      }
-      throw error;
-    }
+    await this.repository.upsert(
+      { ...data, id } as QueryDeepPartialEntity<T>,
+      ['id'] as string[],
+    );
+    return await this.findOne(id);
   }
 }
